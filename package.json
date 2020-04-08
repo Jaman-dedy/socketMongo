@@ -1,0 +1,16 @@
+{
+  "name": "mongo-chat",
+  "version": "1.0.0",
+  "description": "Chat app socket io",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jaman dedy",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.5.5",
+    "socket.io": "^2.3.0"
+  }
+}
