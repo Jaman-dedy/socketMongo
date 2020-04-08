@@ -11,7 +11,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function (err, db) {
 
   // Connect to socket .io
 
-  client.on('connection', function () {
+  client.on('connection', function (socket) {
     let chat = db.collection('chats');
 
     // send status to the server
@@ -40,6 +40,36 @@ mongo.connect('mongodb://127.0.0.1/mongochat', function (err, db) {
     socket.on('input', function (data) {
       let name = data.name;
       let message = data.message;
+
+      // check for name and message
+
+      if (name == '' || message == '') {
+        // send error status
+
+        sendStatus('please enter a name and message');
+      } else {
+        // Insert in the db
+
+        chat.insert({ name: name, message: message }, function () {
+          client.emit('output', [data]);
+
+          // send status object
+          sendStatus({
+            message: 'Message sent',
+            clear: true,
+          });
+        });
+      }
+    });
+    // handle clear
+
+    socket.on('clear', function () {
+      // remove all chats from the collection
+
+      chat.remove({}, function () {
+        // Emit cleared
+        socket.emit('clear');
+      });
     });
   });
 });

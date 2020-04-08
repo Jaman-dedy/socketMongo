@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Mongo chat</title>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <h1 class="text-center">
+                    MongoChat
+
+                    <button id="clear" class="btn btn-danger">Clear</button>
+                </h1>
+
+                <div id="status">
+
+                </div>
+                <div id="chat">
+                    <input type="text" id="username" class="form-control" placeholder="Enter name...">
+                    <br>
+                    <div class="card">
+                        <div id="messages" class="card-block">
+
+                        </div>
+                    </div>
+                    <br>
+                    <textarea class="form-control" placeholder="Enter message..." name="" id="textarea" cols="30"
+                        rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="<script src=" https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    "></script>
+
+    <script>
+        (function () {
+            const element = function (id) {
+                return document.getElementById(id)
+            }
+            // get Elements
+            const status = element('status')
+            const messages = element('messages')
+            const textarea = element('textarea')
+            const username = element('username')
+            const clearBtn = element('clear')
+            // set default status
+
+            const statusDefault = status.textContent
+
+            const setStatus = function (s) {
+                //set status
+                status.textContent = s;
+                if (s !== statusDefault) {
+                    const delay = setTimeout(function () {
+                        setStatus(statusDefault);
+                    }, 4000)
+                }
+            }
+
+            //connect to socket.io
+
+            const socket = io.connect('http://127.0.0.1:4000');
+
+            // check connection
+
+            if (socket !== undefined) {
+                console.log('connected to socket')
+            }
+        })();
+    </script>
+
+</body>
+
+</html>
